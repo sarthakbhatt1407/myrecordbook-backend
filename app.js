@@ -18,6 +18,9 @@ app.use((req, res, next) => {
 });
 
 app.use("/user", userRoute);
+app.use("/home", (req, res) => {
+  res.json({ msg: "hi" });
+});
 
 mongoose
   .connect(process.env.DATABASE_URL)
