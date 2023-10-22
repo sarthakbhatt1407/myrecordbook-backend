@@ -7,6 +7,7 @@ const cardSchema = mongoose.Schema({
   cvv: { type: String, required: true },
   creditLimit: { type: Number, required: true },
   user: { type: String, required: true },
+  lastFiveDig: { type: String },
 });
 
 module.exports = mongoose.model("Card", cardSchema);

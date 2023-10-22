@@ -22,13 +22,10 @@ app.get("/", (req, res) => {
   res.send("Hey this is my API running 22 🥳");
 });
 
-app.get("/about", (req, res) => {
-  res.send("This is my about route..... ");
-});
 mongoose
   .connect(process.env.DATABASE_URL)
   .then(() => {
-    app.listen(PORT, () => {
+    app.listen(5000, () => {
       console.log("Connection successful");
     });
   })
