@@ -8,6 +8,7 @@ const orderSchema = mongoose.Schema({
   merchant: { type: String, required: true },
   user: { type: String, required: true },
   status: { type: String, required: true },
+  orderAmount: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

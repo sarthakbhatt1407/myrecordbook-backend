@@ -3,8 +3,12 @@ const Card = require("../models/card");
 const addNewCard = async (req, res) => {
   const { cardNum, expiry, bankName, cvv, creditLimit, user } = req.body;
   const cardChecker = await Card.findOne({ cardNum: cardNum });
+
   if (cardChecker) {
-    return res.status(400).json({ message: "Card Already Exists" });
+    const sameUser = await Card.findOne({ cardNum: cardNum, user: user });
+    if (sameUser) {
+      return res.status(400).json({ msg: "Card already exists!" });
+    }
   }
   if (cardNum.length != 16) {
     return res.status(400).json({ msg: "Invalid Card number!" });
@@ -24,8 +28,10 @@ const addNewCard = async (req, res) => {
     bankName,
     cvv,
     creditLimit,
+    totalCreditLimit: creditLimit,
     user,
     lastFiveDig: lastFiveDig,
+    orders: [],
   });
   try {
     await createdCard.save();
@@ -89,8 +95,44 @@ const getAllCards = async (req, res) => {
   res.status(200).json({ cards });
 };
 
+const cardEditor = async (req, res) => {
+  const { expiry, bankName, cvv, creditLimit } = req.body;
+  const id = req.params.id;
+  let lastFiveDig = "";
+  let card = await Card.findById(id);
+  if (!card) {
+    return res.status(400).json({ message: "Card not found !" });
+  }
+  card.expiry = expiry;
+  card.bankName = bankName;
+  card.cvv = cvv;
+  card.creditLimit = creditLimit;
+  card.lastFiveDig = lastFiveDig;
+  try {
+    await card.save();
+  } catch (err) {
+    return res.status(403).json({ message: "Unable to update." });
+  }
+  return res.status(201).json({ message: "Card updated successfully." });
+};
+
+const getAllCardsOfUser = async (req, res) => {
+  const { userId } = req.body;
+
+  let cards = await Card.find({ user: userId });
+  cards = cards.map((card) => {
+    return card.toObject({ getters: true });
+  });
+  if (!cards) {
+    return res.status(400).json({ message: "Unable to find cards !" });
+  }
+  return res.status(200).json({ cards });
+};
+
 exports.addNewCard = addNewCard;
 exports.cardLimitUpdater = cardLimitUpdater;
 exports.deleteCardById = deleteCardById;
 exports.getAllCards = getAllCards;
 exports.getCardById = getCardById;
+exports.cardEditor = cardEditor;
+exports.getAllCardsOfUser = getAllCardsOfUser;
