@@ -1,13 +1,5 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const userRoute = require("./routes/userRoute");
-const PORT = process.env.PORT || 5000;
-
-dotenv.config();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -17,6 +9,14 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
 });
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const userRoute = require("./routes/userRoute");
+const PORT = process.env.PORT || 5000;
+
+dotenv.config();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/user", userRoute);
 app.get("/", (req, res) => {
