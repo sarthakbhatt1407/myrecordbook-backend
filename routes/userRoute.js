@@ -5,6 +5,7 @@ const cardController = require("../controller/cardController");
 const orderController = require("../controller/orderController");
 // User Controls
 router.post("/sign-up", usersController.userSignUp);
+router.post("/login", usersController.userLogin);
 
 // Card Controls
 router.post("/add-new-card", cardController.addNewCard);
