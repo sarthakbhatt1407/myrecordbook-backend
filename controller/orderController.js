@@ -49,7 +49,7 @@ const addNewOrder = async (req, res) => {
 };
 
 const orderDeleter = async (req, res) => {
-  const orderId = req.params.orderId;
+  const { orderId } = req.body;
   const order = await Order.findById(orderId);
 
   if (!order) {
@@ -84,7 +84,7 @@ const getOrderByOrderId = async (req, res) => {
   return res.status(200).json({ order });
 };
 const getAllOrderOfUser = async (req, res) => {
-  const user = req.params.user;
+  const { user } = req.body;
   let orders = await Order.find({ user: user });
   if (!orders) {
     return res.status(403).json({ message: "No orders found !" });

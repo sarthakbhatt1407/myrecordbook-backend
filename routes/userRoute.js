@@ -19,8 +19,8 @@ router.post("/card/:id/edit", cardController.cardEditor);
 // Order Contorls
 
 router.post("/add-new-order", orderController.addNewOrder);
-router.delete("/:orderId/delete-order", orderController.orderDeleter);
-router.get("/:user/all-orders", orderController.getAllOrderOfUser);
+router.delete("/delete-order", orderController.orderDeleter);
+router.post("/all-orders", orderController.getAllOrderOfUser);
 router.get("/order/:orderId", orderController.getOrderByOrderId);
 router.patch("/order/:orderId/edit", orderController.orderUpdater);
 
