@@ -45,8 +45,8 @@ const userLogin = async (req, res, next) => {
   if (user && email === user.email && passIsValid) {
     user.password = "Keep Guessing";
     res.json({
-      email: user.email,
-      id: user.id,
+      userEmail: user.email,
+      userId: user.id,
       message: "Logged In",
       isloggedIn: true,
     });
