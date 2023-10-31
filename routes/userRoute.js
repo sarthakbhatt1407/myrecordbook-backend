@@ -22,6 +22,6 @@ router.post("/add-new-order", orderController.addNewOrder);
 router.delete("/delete-order", orderController.orderDeleter);
 router.post("/all-orders", orderController.getAllOrderOfUser);
 router.get("/order/:orderId", orderController.getOrderByOrderId);
-router.patch("/order/:orderId/edit", orderController.orderUpdater);
+router.patch("/order/edit", orderController.orderUpdater);
 
 module.exports = router;
