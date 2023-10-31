@@ -96,7 +96,7 @@ const getAllOrderOfUser = async (req, res) => {
 };
 
 const orderUpdater = async (req, res) => {
-  const orderId = req.params.orderId;
+  const { orderId } = req.body;
   const order = await Order.findById(orderId);
   if (!order) {
     return res.status(403).json({ message: "No order found !" });
