@@ -36,7 +36,7 @@ const addNewOrder = async (req, res) => {
     };
     const updatedArray = cardFound.orders;
     const updatedCreditLimit = cardFound.creditLimit - orderAmount;
-    updatedArray.push(obj);
+    updatedArray.unshift(obj);
     cardFound.orders = updatedArray;
     cardFound.creditLimit = updatedCreditLimit;
     try {
