@@ -69,7 +69,9 @@ const orderDeleter = async (req, res) => {
     }
   }
   try {
-    await card.save();
+    if (card) {
+      await card.save();
+    }
     await order.deleteOne();
   } catch (err) {
     return res.status(403).json({ message: "Something went wrong ..." });
