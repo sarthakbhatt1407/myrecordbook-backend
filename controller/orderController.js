@@ -102,7 +102,11 @@ const orderUpdater = async (req, res) => {
     return res.status(403).json({ message: "No order found !" });
   }
   let updatedStatus = order.status;
-  updatedStatus = "delivered";
+  if (updatedStatus === "pending") {
+    updatedStatus = "delivered";
+  } else {
+    updatedStatus = "pending";
+  }
   order.status = updatedStatus;
   const card = await Card.findOne({ lastFiveDig: order.cardUsed });
   let updatedArray = card.orders;
