@@ -56,16 +56,18 @@ const orderDeleter = async (req, res) => {
     return res.status(403).json({ message: "No order found !" });
   }
   const card = await Card.findOne({ lastFiveDig: order.cardUsed });
-  let updatedArray = card.orders;
-  if (order.status == "pending") {
-    let updatedCreditLimit = card.creditLimit;
-    updatedCreditLimit += order.orderAmount;
-    card.creditLimit = updatedCreditLimit;
+  if (card) {
+    let updatedArray = card.orders;
+    if (order.status == "pending") {
+      let updatedCreditLimit = card.creditLimit;
+      updatedCreditLimit += order.orderAmount;
+      card.creditLimit = updatedCreditLimit;
+    }
+    updatedArray = card.orders.filter((ord) => {
+      return ord.id != orderId;
+    });
+    card.orders = updatedArray;
   }
-  updatedArray = card.orders.filter((ord) => {
-    return ord.id != orderId;
-  });
-  card.orders = updatedArray;
   try {
     await card.save();
     await order.deleteOne();
