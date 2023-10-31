@@ -62,11 +62,11 @@ const orderDeleter = async (req, res) => {
       let updatedCreditLimit = card.creditLimit;
       updatedCreditLimit += order.orderAmount;
       card.creditLimit = updatedCreditLimit;
+      updatedArray = card.orders.filter((ord) => {
+        return ord.id != orderId;
+      });
+      card.orders = updatedArray;
     }
-    updatedArray = card.orders.filter((ord) => {
-      return ord.id != orderId;
-    });
-    card.orders = updatedArray;
   }
   try {
     await card.save();
