@@ -113,19 +113,23 @@ const orderUpdater = async (req, res) => {
   }
   order.status = updatedStatus;
   const card = await Card.findOne({ lastFiveDig: order.cardUsed });
-  let updatedArray = card.orders;
-  updatedArray = updatedArray.map((ord) => {
-    if (ord.id == orderId) {
-      const obj = { ...ord, status: "delivered" };
-      return obj;
-    }
-    return ord;
-  });
-  console.log(updatedArray);
-  card.orders = updatedArray;
+  if (card) {
+    let updatedArray = card.orders;
+    updatedArray = updatedArray.map((ord) => {
+      if (ord.id == orderId) {
+        const obj = { ...ord, status: "delivered" };
+        return obj;
+      }
+      return ord;
+    });
+    console.log(updatedArray);
+    card.orders = updatedArray;
+  }
   try {
     await order.save();
-    await card.save();
+    if (card) {
+      await card.save();
+    }
   } catch (err) {
     return res.status(403).json({ message: "Unable to update order." });
   }
