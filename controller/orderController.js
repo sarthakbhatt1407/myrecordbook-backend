@@ -117,12 +117,11 @@ const orderUpdater = async (req, res) => {
     let updatedArray = card.orders;
     updatedArray = updatedArray.map((ord) => {
       if (ord.id == orderId) {
-        const obj = { ...ord, status: "delivered" };
+        const obj = { ...ord, status: updatedStatus };
         return obj;
       }
       return ord;
     });
-    console.log(updatedArray);
     card.orders = updatedArray;
   }
   try {
